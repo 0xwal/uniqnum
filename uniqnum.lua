@@ -3,7 +3,10 @@
 --- DateTime: 14/02/2022 8:46 AM
 ---
 
-math.randomseed(os.time())
+function uniqnum_seed()
+    return os.time()
+end
+math.randomseed(uniqnum_seed())
 
 local function internal_uniqnum_random(store, min, max, itemsCount)
     local n = math.random(min, max)
