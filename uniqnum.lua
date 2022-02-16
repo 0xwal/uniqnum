@@ -44,8 +44,9 @@ function UniqNum:itemsCount()
 end
 
 function UniqNum:next()
+    local n = internal_uniqnum_random(self:numbers(), self:min(), self:max(), self:itemsCount())
     self._itemsCount = self._itemsCount + 1
-    return internal_uniqnum_random(self:numbers(), self:min(), self:max(), self:itemsCount())
+    return n
 end
 
 function UniqNum:remove(number)
