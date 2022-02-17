@@ -48,6 +48,52 @@ describe('uniqnum', function()
             end
         end)
 
+        it('should able to generate all possible numbers', function()
+            local min  = 0
+            local max  = 3
+            local uniq = UniqNum.new(min, max)
+            local all  = {}
+            while max >= min do
+                local n          = uniq:next()
+                all[tostring(n)] = n
+                max              = max - 1
+            end
+            assert.not_nil(all['0'])
+            assert.not_nil(all['1'])
+            assert.not_nil(all['2'])
+            assert.not_nil(all['3'])
+        end)
+
+        it('should able to generate all possible numbers with min of greater than 0', function()
+            local min  = 1
+            local max  = 3
+            local uniq = UniqNum.new(min, max)
+            local all  = {}
+            while max >= min do
+                local n          = uniq:next()
+                all[tostring(n)] = n
+                max              = max - 1
+            end
+            assert.not_nil(all['1'])
+            assert.not_nil(all['2'])
+            assert.not_nil(all['3'])
+        end)
+
+        it('should throw error when reach the maximum', function()
+            local min  = 1
+            local max  = 3
+            local uniq = UniqNum.new(min, max)
+            local all  = {}
+            while max >= min do
+                local n          = uniq:next()
+                all[tostring(n)] = n
+                max              = max - 1
+            end
+            assert.was_error(function()
+                uniq:next()
+            end)
+        end)
+
         it('should able to remove an item', function()
             local min  = 1
             local max  = 2

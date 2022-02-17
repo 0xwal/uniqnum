@@ -8,15 +8,15 @@ function uniqnum_seed()
 end
 math.randomseed(uniqnum_seed())
 
-local function internal_uniqnum_random(store, min, max, itemsCount)
+local function internal_uniqnum_random(store, min, max, itemsCount, threshold)
     local n = math.random(min, max)
 
-    if itemsCount > max then
+    if threshold < itemsCount then
         error('Could not get a unique number')
     end
 
     if store[n] then
-        return internal_uniqnum_random(store, min, max, itemsCount)
+        return internal_uniqnum_random(store, min, max, itemsCount, threshold)
     end
 
     store[n] = true
@@ -44,7 +44,8 @@ function UniqNum:itemsCount()
 end
 
 function UniqNum:next()
-    local n = internal_uniqnum_random(self:numbers(), self:min(), self:max(), self:itemsCount())
+    local threshold  = self:max() - self:min()
+    local n          = internal_uniqnum_random(self:numbers(), self:min(), self:max(), self:itemsCount(), threshold)
     self._itemsCount = self._itemsCount + 1
     return n
 end
