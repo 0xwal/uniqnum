@@ -120,5 +120,36 @@ describe('uniqnum', function()
             end)
             assert.is_equal(2, uniq:itemsCount())
         end)
+
+        it('should get random element if we give an array', function()
+            local uniq = UniqNum.new({ 'a', 'b', 'c' })
+            local all  = {}
+            for _ = 1, 3 do
+                local n = uniq:next()
+                all[n]  = n
+            end
+            assert.not_nil(all['a'])
+            assert.not_nil(all['b'])
+            assert.not_nil(all['c'])
+        end)
+
+        it('should throw when no more element exist', function()
+            local uniq = UniqNum.new({ 'a', 'b', 'c' })
+            local all  = {}
+            for _ = 1, 3 do
+                local n = uniq:next()
+                all[n]  = n
+            end
+            assert.not_nil(all['a'])
+            assert.not_nil(all['b'])
+            assert.not_nil(all['c'])
+            assert.has_error(function()
+                uniq:next()
+            end)
+
+            assert.has_error(function()
+                UniqNum.new({}):next()
+            end)
+        end)
     end)
 end)
