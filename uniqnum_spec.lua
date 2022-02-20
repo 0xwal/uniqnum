@@ -152,4 +152,37 @@ describe('uniqnum', function()
             end)
         end)
     end)
+
+    describe('protected mode', function()
+        it('exist', function()
+            local uniq = UniqNum.new({ 'a', 'b', 'c' })
+            assert(uniq.protectedNext)
+        end)
+
+        it('should not throw for elements', function()
+            local uniqElement = UniqNum.new({ 'a', 'b', 'c' })
+            local all         = {}
+            for _ = 1, 3 do
+                local n = uniqElement:protectedNext()
+                all[n]  = n
+            end
+            assert.not_nil(all['a'])
+            assert.not_nil(all['b'])
+            assert.not_nil(all['c'])
+            assert.is_nil(uniqElement:protectedNext())
+        end)
+
+        it('should not throw for numbers', function()
+            local uniqElement = UniqNum.new(1, 3)
+            local all         = {}
+            for _ = 1, 3 do
+                local n          = uniqElement:protectedNext()
+                all[tostring(n)] = n
+            end
+            assert.not_nil(all['1'])
+            assert.not_nil(all['2'])
+            assert.not_nil(all['3'])
+            assert.is_nil(uniqElement:protectedNext())
+        end)
+    end)
 end)

@@ -68,6 +68,16 @@ function UniqNum:next()
     return n
 end
 
+function UniqNum:protectedNext()
+    local threshold = self:max() - self:min()
+    local status, n = pcall(self._internal_random_func, self:numbers(), self:min(), self:max(), self:itemsCount(), threshold, self._elements)
+    if not status then
+        return nil
+    end
+    self._itemsCount = self._itemsCount + 1
+    return n
+end
+
 function UniqNum:remove(number)
     self._itemsCount            = self._itemsCount - 1
     self._reservedItems[number] = nil
